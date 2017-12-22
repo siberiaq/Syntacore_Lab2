@@ -1,8 +1,10 @@
 start: main.o factorial.o
 	gcc main.o factorial.o -o start -lm
-objdump:
+	getobjdump
+	getobjcopy
+getobjdump:
 	objdump -x -s -w -d start > start.dump
-objcopy:
+getobjcopy:
 	objcopy -O binary start start.bin
 Main.o: main.c
 	gcc -c main.c
