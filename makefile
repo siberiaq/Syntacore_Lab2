@@ -1,14 +1,20 @@
-start: main.o factorial.o
-	gcc main.o factorial.o -o start -lm
-	getobjdump
-	getobjcopy
-getobjdump:
-	objdump -x -s -w -d start > start.dump
-getobjcopy:
-	objcopy -O binary start start.bin
-Main.o: main.c
-	gcc -c main.c
-Factorial.o: factorial.c
-	gcc -c factorial.c
+SRC = main.c factorial.c
+GCC = gcc
+ODUMP = objdump
+OCOPY = objcopy
+CFLAGS = -c
+OBJ = $(SRC:.c=.o)
+
+start: $(OBJ)
+	$(GCC) $(OBJ) -o factorial
+	$(ODUMP) -x -s -w -d factorial > factorial.dump
+	$(OCOPY) -O binary factorial factorial.bin
+
+main.o: main.c
+	$(GCC) $(CFLAGS) main.c
+
+factorial.o: factorial.c
+	$(GCC) $(CFLAGS) factorial.c
+
 clean:
-	rm -f start main.o factorial.o start.dump start.bin
+	rm -f factorial $(OBJ) factorial.dump factorial.bin
